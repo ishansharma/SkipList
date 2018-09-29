@@ -1,9 +1,10 @@
 /* Starter code for LP2 */
 
 // Change this to netid of any member of team
-package ixs171130;
+package rxk171530;
 
 import java.util.Iterator;
+import java.util.Random;
 
 // Skeleton for skip list implementation.
 
@@ -11,58 +12,73 @@ public class SkipList<T extends Comparable<? super T>> {
     static final int PossibleLevels = 33;
 
     static class Entry<E> {
-        E element;
-        Entry[] next;
-        Entry prev;
+	E element;
+	Entry[] next;
+	Entry prev;
 
-        public Entry(E x, int lev) {
-            element = x;
-            next = new Entry[lev];
-            // add more code if needed
-        }
+	public Entry(E x, int lev) {
+	    element = x;
+	    next = new Entry[lev];
+	    // add more code if needed
+	}
 
-        public E getElement() {
-            return element;
-        }
+	public E getElement() {
+		
+	    return element;
+	}
     }
+    
+    Entry head,tail;
+    int size,maxLevel;
+    Entry[] last;
+    Random random;
+    
+    
 
     // Constructor
     public SkipList() {
+    	head = new Entry<>(null,33);
+    	tail = new Entry<>(null,33);
+    	size = 0;
+    	maxLevel = 1;
+    	last = new Entry[33];
+    	random = new Random();
+    	
     }
 
     // Add x to list. If x already exists, reject it. Returns true if new node is added to list
     public boolean add(T x) {
-        return true;
+	return true;
     }
 
     // Find smallest element that is greater or equal to x
     public T ceiling(T x) {
-        return null;
+	return null;
     }
 
     // Does list contain x?
     public boolean contains(T x) {
-        return false;
+	return false;
     }
 
     // Return first element of list
     public T first() {
-        return null;
+	return null;
     }
 
     // Find largest element that is less than or equal to x
     public T floor(T x) {
-        return null;
+	return null;
     }
 
     // Return element at index n of list.  First element is at index 0.
     public T get(int n) {
-        return null;
+	return null;
     }
 
     // O(n) algorithm for get(n)
     public T getLinear(int n) {
-        return null;
+	return null;
     }
 
     // Optional operation: Eligible for EC.
@@ -73,32 +89,32 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Is the list empty?
     public boolean isEmpty() {
-        return false;
+	return false;
     }
 
     // Iterate through the elements of list in sorted order
     public Iterator<T> iterator() {
-        return null;
+	return null;
     }
 
     // Return last element of list
     public T last() {
-        return null;
+	return null;
     }
 
     // Optional operation: Reorganize the elements of the list into a perfect skip list
     // Not a standard operation in skip lists. Eligible for EC.
     public void rebuild() {
-
+	
     }
 
     // Remove x from list.  Removed element is returned. Return null if x not in list
     public T remove(T x) {
-        return null;
+	return null;
     }
 
     // Return the number of elements in the list
     public int size() {
-        return 0;
+	return 0;
     }
 }
