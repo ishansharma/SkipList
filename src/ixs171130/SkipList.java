@@ -4,7 +4,10 @@
 package rxk171530;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Random;
+
+import rxk171530.BinarySearchTree.Entry;
 
 // Skeleton for skip list implementation.
 
@@ -45,10 +48,46 @@ public class SkipList<T extends Comparable<? super T>> {
     	random = new Random();
     	
     }
-
+    
+    public void find(T x)
+    {
+    	Entry<T> p  = head;
+    	
+    	for(int i = maxLevel - 1; i >= 0; i--)
+    	{
+    		while(p.next[i] != null &&  ((Comparable<? super T>) p.next[i].element).compareTo(x) < 0 )
+    			p = p.next[i];
+    		
+    		last[i] = p;
+    	}
+    	
+    }
+    
+    public int chooseLevel()
+    {
+    	int lev = 1 + Integer.numberOfTrailingZeros(random.nextInt());
+    	if(lev > maxLevel)
+    		maxLevel = lev;
+    	
+    	return(lev);
+    		
+    }
     // Add x to list. If x already exists, reject it. Returns true if new node is added to list
     public boolean add(T x) {
+    	
+    	int lev = chooseLevel();
+    	Entry<T> ent = new Entry(x,lev);
+    	
+    	for(int i = 0 ; i < lev ;i++)
+    	{
+    		ent.next[i]  = last[i].next[i];
+    		last[i].next[i] = ent;
+    	}
+    	ent.next[0].prev = ent;
+    	ent.prev = last[0];
+    	size = size + 1;
 	return true;
+	
     }
 
     // Find smallest element that is greater or equal to x
@@ -58,7 +97,9 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Does list contain x?
     public boolean contains(T x) {
-	return false;
+    	find(x);
+    	
+    	return(((Comparable<? super T>) last[0].next[0].element).compareTo(x) == 0);
     }
 
     // Return first element of list
@@ -73,12 +114,23 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Return element at index n of list.  First element is at index 0.
     public T get(int n) {
+    	
+    	
+    	
 	return null;
     }
 
     // O(n) algorithm for get(n)
     public T getLinear(int n) {
-	return null;
+    	if(n < 0 || n > size - 1)
+    		throw new NoSuchElementException("Element Not Found");
+    	Entry<T> p = head;
+    	
+    	for(int i = 0 ; i< n ; i++)
+    		p = p.next[0];
+    	
+    	return(p.element);
+    	
     }
 
     // Optional operation: Eligible for EC.
@@ -89,6 +141,8 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Is the list empty?
     public boolean isEmpty() {
+    	if(size == 0)
+    		return(true);
 	return false;
     }
 
@@ -115,6 +169,7 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Return the number of elements in the list
     public int size() {
-	return 0;
+    	
+    	return(size);
     }
 }
