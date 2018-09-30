@@ -6,7 +6,6 @@ package rxk171530;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
-
 import rxk171530.BinarySearchTree.Entry;
 
 // Skeleton for skip list implementation.
@@ -55,9 +54,8 @@ public class SkipList<T extends Comparable<? super T>> {
     	
     	for(int i = maxLevel - 1; i >= 0; i--)
     	{
-    		while(p.next[i] != null &&  ((Comparable<? super T>) p.next[i].element).compareTo(x) < 0 )
+    		while(p.next[i] != null &&  ((Comparable<? super T>) p.next[i].getElement()).compareTo(x) < 0 )
     			p = p.next[i];
-    		
     		last[i] = p;
     	}
     	
@@ -68,12 +66,14 @@ public class SkipList<T extends Comparable<? super T>> {
     	int lev = 1 + Integer.numberOfTrailingZeros(random.nextInt());
     	if(lev > maxLevel)
     		maxLevel = lev;
-    	
     	return(lev);
     		
     }
     // Add x to list. If x already exists, reject it. Returns true if new node is added to list
     public boolean add(T x) {
+    	
+    	if(contains(x) == true)
+    		return(false);
     	
     	int lev = chooseLevel();
     	Entry<T> ent = new Entry(x,lev);
@@ -98,7 +98,6 @@ public class SkipList<T extends Comparable<? super T>> {
     // Does list contain x?
     public boolean contains(T x) {
     	find(x);
-    	
     	return(((Comparable<? super T>) last[0].next[0].element).compareTo(x) == 0);
     }
 
@@ -114,9 +113,6 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Return element at index n of list.  First element is at index 0.
     public T get(int n) {
-    	
-    	
-    	
 	return null;
     }
 
@@ -130,7 +126,6 @@ public class SkipList<T extends Comparable<? super T>> {
     		p = p.next[0];
     	
     	return(p.element);
-    	
     }
 
     // Optional operation: Eligible for EC.
@@ -164,7 +159,17 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Remove x from list.  Removed element is returned. Return null if x not in list
     public T remove(T x) {
-	return null;
+    	if(!contains(x))
+    		return(null);
+    	Entry<T> ent = last[0].next[0];
+    	for(int i = 0; i < ent.next.length - 1;i++)
+    	{
+    		last[i].next[i] = ent.next[i];
+    	}
+    	size = size - 1;
+    	
+	return(ent.element);
+	
     }
 
     // Return the number of elements in the list
