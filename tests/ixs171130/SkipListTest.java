@@ -10,6 +10,15 @@ class SkipListTest {
     void add() {
         SkipList<Integer> s = new SkipList<>();
         assertTrue(s.add(1));
-        assertFalse(s.add(2));
+        assertTrue(s.add(2));
+        assertFalse(s.add(1));
+    }
+
+    @Test
+    void first() {
+        SkipList<Integer> s = new SkipList<>();
+        assertNull(s.first());
+        assertTrue(s.add(1));
+        assertEquals(Integer.valueOf(1), s.first());
     }
 }
