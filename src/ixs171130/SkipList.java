@@ -142,9 +142,13 @@ public class SkipList<T extends Comparable<? super T>> {
         return null;
     }
 
-    // Iterate through the elements of list in sorted order
+    /**
+     * An iterator for iterating in sorted order
+     *
+     * @return an instance of skipListIterator
+     */
     public Iterator<T> iterator() {
-        return null;
+        return new skipListIterator();
     }
 
     // Return last element of list
@@ -193,15 +197,30 @@ public class SkipList<T extends Comparable<? super T>> {
         }
     }
 
-    private class skipListIterator implements Iterator {
+    /**
+     * Iterator class for iterating through the list in sorted order
+     *
+     * @author Ishan
+     */
+    private class skipListIterator implements Iterator<T> {
         Entry current = head;
 
         public boolean hasNext() {
+            if (current != null && current.next[0] != null) {
+                return true;
+            }
+
             return false;
         }
 
         public T next() {
-            return null;
+            if (current == null || current.next == null) {
+                throw new NoSuchElementException("No next element in the List");
+            }
+
+            T res = (T) current.next[0].element;
+            current = current.next[0];
+            return res;
         }
     }
 }
