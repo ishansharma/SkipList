@@ -22,7 +22,6 @@ public class SkipList<T extends Comparable<? super T>> {
         maxLevel = 1;
         last = new Entry[33];
         random = new Random();
-
     }
 
     Entry[] last;
@@ -50,7 +49,7 @@ public class SkipList<T extends Comparable<? super T>> {
     // Add x to list. If x already exists, reject it. Returns true if new node is added to list
     public boolean add(T x) {
 
-        if (contains(x) == true)
+        if (contains(x))
             return (false);
 
         int lev = chooseLevel();
@@ -78,8 +77,16 @@ public class SkipList<T extends Comparable<? super T>> {
         return (((Comparable<? super T>) last[0].next[0].element).compareTo(x) == 0);
     }
 
-    // Return first element of list
+    /**
+     * Return first element of the list
+     *
+     * @return If there's an element next to sentinel head, return that. Else return null.
+     */
     public T first() {
+        if (head.next[0] != null) {
+            return (T) head.next[0].element;
+        }
+
         return null;
     }
 
@@ -88,9 +95,14 @@ public class SkipList<T extends Comparable<? super T>> {
         return null;
     }
 
-    // Return element at index n of list.  First element is at index 0.
+    /**
+     * Get the element at index n. Uses getLinear internally for now, will be replaced with getLog
+     *
+     * @param n Index of element to be retrieved
+     * @return
+     */
     public T get(int n) {
-        return null;
+        return getLinear(n);
     }
 
     // O(n) algorithm for get(n)
@@ -166,7 +178,6 @@ public class SkipList<T extends Comparable<? super T>> {
         }
 
         public E getElement() {
-
             return element;
         }
     }
