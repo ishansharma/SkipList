@@ -58,14 +58,21 @@ public class SkipList<T extends Comparable<? super T>> {
     			p = p.next[i];
     		last[i] = p;
     	}
-    	
     }
     
     public int chooseLevel()
     {
     	int lev = 1 + Integer.numberOfTrailingZeros(random.nextInt());
     	if(lev > maxLevel)
+    	{
+    		for(int i = maxLevel ; i < lev ; i++)
+    		{
+    			last[i] = head;
+    		}
     		maxLevel = lev;
+    		
+    	}
+    		
     	return(lev);
     		
     }
@@ -76,6 +83,9 @@ public class SkipList<T extends Comparable<? super T>> {
     		return(false);
     	
     	int lev = chooseLevel();
+    	
+    	
+    	
     	Entry<T> ent = new Entry(x,lev);
     	
     	for(int i = 0 ; i < lev ;i++)
@@ -83,7 +93,8 @@ public class SkipList<T extends Comparable<? super T>> {
     		ent.next[i]  = last[i].next[i];
     		last[i].next[i] = ent;
     	}
-    	ent.next[0].prev = ent;
+    	if(ent.next[0] != null)
+    		ent.next[0].prev = ent;
     	ent.prev = last[0];
     	size = size + 1;
 	return true;
@@ -98,7 +109,10 @@ public class SkipList<T extends Comparable<? super T>> {
     // Does list contain x?
     public boolean contains(T x) {
     	find(x);
-    	return(((Comparable<? super T>) last[0].next[0].element).compareTo(x) == 0);
+    	if(last[0].next[0] == null)
+    		return false;
+    	else
+    		return(( (Comparable<? super T>) last[0].next[0].element).compareTo(x) == 0);
     }
 
     // Return first element of list
