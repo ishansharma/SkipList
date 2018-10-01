@@ -111,7 +111,7 @@ public class SkipList<T extends Comparable<? super T>> {
      * Get the element at index n. Uses getLinear internally for now, will be replaced with getLog
      *
      * @param n Index of element to be retrieved
-     * @return
+     * @return Element at index n
      */
     public T get(int n) {
         return getLinear(n);
