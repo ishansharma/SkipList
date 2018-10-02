@@ -8,7 +8,6 @@ import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SkipListTest {
-
     @Test
     void contains() {
         SkipList<String> s = new SkipList<>();
@@ -42,9 +41,21 @@ class SkipListTest {
         }
 
         // testing for elements bigger than what we added!
-        for (int i = 1000001; i < 10000000; i++) {
+        for (int i = 2000000; i >= 1000000; i--) {
             assertTrue(s.add(i));
         }
+
+        Integer[] out = new Integer[2000000];
+        Integer[] expected = new Integer[2000000];
+
+        Iterator<Integer> it = s.iterator();
+        // make sure we have the correct order
+        for (int i = 0; i < 2000000; i++) {
+            out[i] = it.next();
+            expected[i] = i + 1;
+        }
+
+        assertEquals(Arrays.toString(expected), Arrays.toString(out));
     }
 
     @Test
@@ -75,7 +86,7 @@ class SkipListTest {
         iteratorIntegerRandom();
     }
 
-    void iteratorIntegerRandom() {
+    private void iteratorIntegerRandom() {
         // build a skiplist with random order
         SkipList<Integer> integerSkipList2 = new SkipList<>();
         Integer[] toAdd = {1, 4, 2, 7, 5, 9, -10, 654, 34, 12, 86, -20, -999, 999, 100000, -1000000};
