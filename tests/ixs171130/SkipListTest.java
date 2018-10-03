@@ -106,4 +106,43 @@ class SkipListTest {
 
         assertEquals(Arrays.toString(expected), Arrays.toString(res));
     }
+
+    @Test
+    void remove() {
+        SkipList<Integer> i = new SkipList<>();
+
+        // remove from empty list
+        assertNull(i.remove(0));
+
+        // remove when only one element is there
+        i.add(1);
+        assertEquals(Integer.valueOf(1), i.remove(1));
+
+        // remove first element when multiple elements were added
+        i.add(10);
+        i.add(9);
+        i.add(5);
+        i.add(6);
+        i.add(7);
+        i.add(123);
+        i.add(32);
+        i.add(40);
+        i.add(41);
+        i.add(45);
+        i.add(42);
+
+        assertEquals(Integer.valueOf(5), i.remove(5));
+        assertNull(i.remove(5));
+
+        // remove last element with a list of multiple elements
+        assertEquals(Integer.valueOf(123), i.remove(123));
+        assertNull(i.remove(123));
+
+        // make sure element can be added again after removal
+        assertTrue(i.add(123));
+
+        // remove an element from the middle
+        assertEquals(Integer.valueOf(32), i.remove(32));
+        assertNull(i.remove(32));
+    }
 }
