@@ -168,13 +168,13 @@ public class SkipList<T extends Comparable<? super T>> {
         last = new Entry[PossibleLevels];
         size = 0;
 
-        int nodeIndex = 0;
+        int nodeIndex = 1;
         while(current != null) {
             Entry ent = current;
 
             int level = 0;
             int number = 2;
-            while (nodeIndex < rebuildSize && nodeIndex % number == 0 && level < Math.log(rebuildSize)) {
+            while (nodeIndex <= rebuildSize && nodeIndex % number == 0 && level < Math.log(rebuildSize)) {
                 level = level + 1;
                 number  = number * 2;
             }
@@ -185,7 +185,7 @@ public class SkipList<T extends Comparable<? super T>> {
 
             find(((T) ent.element));
 
-            if (level > maxLevel) {
+            if (ent.level > maxLevel) {
                 for (int i = maxLevel; i < ent.level; i++) {
                     last[i] = head;
                 }
@@ -217,7 +217,6 @@ public class SkipList<T extends Comparable<? super T>> {
             last[i].next[i] = ent.next[i];
         }
         size = size - 1;
-
         return (ent.element);
 
     }
