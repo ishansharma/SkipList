@@ -160,6 +160,52 @@ public class SkipList<T extends Comparable<? super T>> {
     // Not a standard operation in skip lists. Eligible for EC.
     public void rebuild() {
 
+        int rebuildSize = size;
+        Entry current = head.next[0];
+        head = new Entry<>(null, PossibleLevels);
+        tail = new Entry<>(null, PossibleLevels);
+        maxLevel = 1;
+        last = new Entry[PossibleLevels];
+        size = 0;
+
+        int nodeIndex = 1;
+        while(current != null) {
+            Entry ent = current;
+
+            int level = 0;
+            int number = 2;
+            while (nodeIndex <= rebuildSize && nodeIndex % number == 0 && level < Math.log(rebuildSize)) {
+                level = level + 1;
+                number  = number * 2;
+            }
+
+            Entry storeTemp = ent.next[0];
+            ent.next = new Entry[level + 1];
+            ent.level = level + 1;
+
+            find(((T) ent.element));
+
+            if (ent.level > maxLevel) {
+                for (int i = maxLevel; i < ent.level; i++) {
+                    last[i] = head;
+                }
+                maxLevel = ent.level;
+            }
+
+            for (int i = 0; i < ent.level ; i++) {
+                ent.next[i] = last[i].next[i];
+                last[i].next[i] = ent;
+            }
+            if (ent.next[0] != null)
+                ent.next[0].prev = ent;
+            ent.prev = last[0];
+
+            nodeIndex += 1;
+            size = size + 1;
+
+            current = storeTemp;
+        }
+        System.out.println("Max Level reached for size :" + size + " is " + maxLevel);
     }
 
     // Remove x from list.  Removed element is returned. Return null if x not in list
@@ -171,7 +217,6 @@ public class SkipList<T extends Comparable<? super T>> {
             last[i].next[i] = ent.next[i];
         }
         size = size - 1;
-
         return (ent.element);
 
     }
@@ -185,16 +230,37 @@ public class SkipList<T extends Comparable<? super T>> {
         E element;
         Entry[] next;
         Entry prev;
+        int level = 0;
 
         public Entry(E x, int lev) {
             element = x;
             next = new Entry[lev];
+            level = lev;
             // add more code if needed
         }
 
         public E getElement() {
             return element;
         }
+    }
+
+
+    public void printAllLevelOfCurrent() {
+        Entry current = head;
+        while (current != null && current.next[0] != null) {
+            System.out.println("Element : " + current.next[0].element);
+            for (int i = 0; i< maxLevel; i++) {
+                if (i < current.next[0].level && current.next[0].next[i] != null) {
+                    System.out.println("Level " + i + " : " + current.next[0].next[i].element);
+                }
+                else {
+                    break;
+                }
+            }
+            System.out.println("");
+            current = current.next[0];
+        }
+
     }
 
     /**
@@ -222,5 +288,7 @@ public class SkipList<T extends Comparable<? super T>> {
             current = current.next[0];
             return res;
         }
+
+
     }
 }
