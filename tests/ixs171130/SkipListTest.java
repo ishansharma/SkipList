@@ -107,6 +107,26 @@ class SkipListTest {
             integerSkipList.add(x);
         }
 
+        System.out.println(" floor of 7 " + integerSkipList.floor(7));
+        System.out.println(" ceiling of 7 " + integerSkipList.ceiling(7));
+
+        System.out.println(" floor of 8 " + integerSkipList.floor(8));
+        System.out.println(" ceiling of 8 " + integerSkipList.ceiling(8));
+
+        System.out.println(" floor of -1000000 " + integerSkipList.floor(-1000000));
+        System.out.println(" ceiling of -1000000 " + integerSkipList.ceiling(-1000000));
+
+        System.out.println(" floor of 1000000 " + integerSkipList.floor(1000000));
+        System.out.println(" ceiling of 1000000 " + integerSkipList.ceiling(1000000));
+
+        System.out.println(" floor of -1000005 " + integerSkipList.floor(-1000005));
+        System.out.println(" ceiling of -1000005 " + integerSkipList.ceiling(-1000005));
+
+        System.out.println(" floor of 1000005 " + integerSkipList.floor(1000005));
+        System.out.println(" ceiling of 1000005 " + integerSkipList.ceiling(1000005));
+
+        System.out.println("last of list : " + integerSkipList.last());
+
         Integer[] res = new Integer[16];
         Iterator<Integer> it = integerSkipList.iterator();
         int index = 0;
@@ -126,6 +146,26 @@ class SkipListTest {
         for (int x : toAdd1) {
             integerSkipList1.add(x);
         }
+
+        System.out.println(" floor of 7 " + integerSkipList1.floor(7));
+        System.out.println(" ceiling of 7 " + integerSkipList1.ceiling(7));
+
+        System.out.println(" floor of 11 " + integerSkipList1.floor(11));
+        System.out.println(" ceiling of 11 " + integerSkipList1.ceiling(11));
+
+        System.out.println(" floor of -2 " + integerSkipList1.floor(-2));
+        System.out.println(" ceiling of -2 " + integerSkipList1.ceiling(-2));
+
+        System.out.println(" floor of 14 " + integerSkipList1.floor(14));
+        System.out.println(" ceiling of 14 " + integerSkipList1.ceiling(14));
+
+        System.out.println(" floor of -1 " + integerSkipList1.floor(-1));
+        System.out.println(" ceiling of -1 " + integerSkipList1.ceiling(-1));
+
+        System.out.println(" floor of 13 " + integerSkipList1.floor(13));
+        System.out.println(" ceiling of 13 " + integerSkipList1.ceiling(13));
+
+        System.out.println("last of list : " + integerSkipList1.last());
 
         Integer[] res1 = new Integer[13];
         Iterator<Integer> it1 = integerSkipList1.iterator();
@@ -161,14 +201,14 @@ class SkipListTest {
         System.out.println(Arrays.toString(res2));
         integerSkipList2.printAllLevelOfCurrent();
 
-        Integer[] toAdd3 = { 0, 1, 2, 3 };
-        Integer[] expected3 = { 0, 1, 2, 3 };
+        Integer[] toAdd3 = { 0, 1,  3 };
+        Integer[] expected3 = { 0, 1,  3 };
         SkipList<Integer> integerSkipList3 = new SkipList<>();
         for (int x : toAdd3) {
             integerSkipList3.add(x);
         }
 
-        Integer[] res3 = new Integer[4];
+        Integer[] res3 = new Integer[3];
         Iterator<Integer> it3 = integerSkipList3.iterator();
         int index3 = 0;
         while (it3.hasNext()) {
@@ -180,5 +220,29 @@ class SkipListTest {
         integerSkipList3.rebuild();
         System.out.println(Arrays.toString(res3));
         integerSkipList3.printAllLevelOfCurrent();
+
+        System.out.println(" floor of 2 " + integerSkipList3.floor(2));
+        System.out.println(" ceiling of 2 " + integerSkipList3.ceiling(2));
+
+        System.out.println("last of list : " + integerSkipList3.last());
+
+        SkipList<Integer> integerSkipList4 = new SkipList<>();
+        Integer[] toAdd4 = {1 };
+        Integer[] expected4 = {1 };
+
+        for (int x : toAdd4) {
+            integerSkipList4.add(x);
+        }
+
+        System.out.println(" floor of 1 " + integerSkipList4.floor(1));
+        System.out.println(" ceiling of 1 " + integerSkipList4.ceiling(1));
+
+        System.out.println(" floor of -1 " + integerSkipList4.floor(-1));
+        System.out.println(" ceiling of -1 " + integerSkipList4.ceiling(-1));
+
+        System.out.println(" floor of 5 " + integerSkipList4.floor(5));
+        System.out.println(" ceiling of 5 " + integerSkipList4.ceiling(5));
+
+        System.out.println("last of list : " + integerSkipList4.last());
     }
 }
