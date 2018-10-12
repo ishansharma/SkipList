@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -286,13 +287,25 @@ class SkipListTest {
     }
 
     @Test
-    void get() {
+    void getLinear() {
         SkipList<Integer> i = new SkipList<>();
+
+        assertThrows(NoSuchElementException.class, () -> i.get(0));
+        assertThrows(NoSuchElementException.class, () -> i.get(-1));
 
         i.add(1);
         i.add(2);
         i.add(3);
         assertEquals(Integer.valueOf(1), i.get(0));
         assertEquals(Integer.valueOf(2), i.get(1));
+
+        for (int e = 4; e <= 10000; e++) {
+            i.add(e);
+        }
+
+        assertEquals(Integer.valueOf(3), i.get(2));
+        assertEquals(Integer.valueOf(10000), i.get(9999));
+        assertEquals(Integer.valueOf(5000), i.get(4999));
+        assertEquals(Integer.valueOf(2555), i.get(2554));
     }
 }
