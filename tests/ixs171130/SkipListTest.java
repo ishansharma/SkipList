@@ -284,4 +284,15 @@ class SkipListTest {
         assertEquals(Integer.valueOf(32), i.remove(32));
         assertNull(i.remove(32));
     }
+
+    @Test
+    void get() {
+        SkipList<Integer> i = new SkipList<>();
+
+        i.add(1);
+        i.add(2);
+        i.add(3);
+        assertEquals(Integer.valueOf(1), i.get(0));
+        assertEquals(Integer.valueOf(2), i.get(1));
+    }
 }

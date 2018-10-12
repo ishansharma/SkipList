@@ -134,7 +134,12 @@ public class SkipList<T extends Comparable<? super T>> {
     public T getLinear(int n) {
         if (n < 0 || n > size - 1)
             throw new NoSuchElementException("Element Not Found");
-        Entry<T> p = head;
+
+        if (head.next[0] == null) {
+            return null;
+        }
+
+        Entry<T> p = head.next[0];
 
         for (int i = 0; i < n; i++)
             p = p.next[0];
