@@ -57,14 +57,13 @@ class SkipListTest {
 
         assertEquals(Arrays.toString(expected), Arrays.toString(out));
 
-        s.rebuild();
+//        s.rebuild();
         it = s.iterator();
         // make sure we have the correct order
         for (int i = 0; i < 2000000; i++) {
             out[i] = it.next();
             expected[i] = i + 1;
         }
-        System.out.println(Arrays.toString(out));
 //        s.printAllLevelOfCurrent();
         assertEquals(Arrays.toString(expected), Arrays.toString(out));
     }
