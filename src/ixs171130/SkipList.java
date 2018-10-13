@@ -304,7 +304,7 @@ public class SkipList<T extends Comparable<? super T>> {
         if (!contains(x))
             return (null);
         Entry<T> ent = last[0].next[0];
-        for (int i = 0; i < ent.next.length - 1; i++) {
+        for (int i = 0; i <= ent.next.length - 1; i++) {
             last[i].next[i] = ent.next[i];
         }
         size = size - 1;
