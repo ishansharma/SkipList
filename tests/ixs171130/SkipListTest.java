@@ -1,5 +1,6 @@
 package ixs171130;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -285,26 +286,46 @@ class SkipListTest {
         assertNull(i.remove(32));
     }
 
-    @Test
+    @RepeatedTest(5)
     void getLinear() {
         SkipList<Integer> i = new SkipList<>();
 
-        assertThrows(NoSuchElementException.class, () -> i.get(0));
-        assertThrows(NoSuchElementException.class, () -> i.get(-1));
+        assertThrows(NoSuchElementException.class, () -> i.getLinear(0));
+        assertThrows(NoSuchElementException.class, () -> i.getLinear(-1));
 
         i.add(1);
         i.add(2);
         i.add(3);
-        assertEquals(Integer.valueOf(1), i.get(0));
-        assertEquals(Integer.valueOf(2), i.get(1));
+        assertEquals(Integer.valueOf(1), i.getLinear(0));
+        assertEquals(Integer.valueOf(2), i.getLinear(1));
 
         for (int e = 4; e <= 10000; e++) {
             i.add(e);
         }
 
-        assertEquals(Integer.valueOf(3), i.get(2));
-        assertEquals(Integer.valueOf(10000), i.get(9999));
-        assertEquals(Integer.valueOf(5000), i.get(4999));
-        assertEquals(Integer.valueOf(2555), i.get(2554));
+        assertEquals(Integer.valueOf(3), i.getLinear(2));
+        assertEquals(Integer.valueOf(10000), i.getLinear(9999));
+        assertEquals(Integer.valueOf(5000), i.getLinear(4999));
+        assertEquals(Integer.valueOf(2555), i.getLinear(2554));
+    }
+
+    @RepeatedTest(5)
+    void getLog() {
+        SkipList<Integer> i = new SkipList<>();
+
+        assertThrows(NoSuchElementException.class, () -> i.getLog(0));
+        assertThrows(NoSuchElementException.class, () -> i.getLog(-1));
+
+        for (int x = 0; x <= 10000; x++) {
+            i.add(x);
+        }
+
+        assertEquals(Integer.valueOf(0), i.getLog(0));
+        assertEquals(Integer.valueOf(1), i.getLog(1));
+        assertEquals(Integer.valueOf(4), i.getLog(4));
+        assertEquals(Integer.valueOf(99), i.getLog(99));
+        assertEquals(Integer.valueOf(10000), i.getLinear(10000));
+        assertEquals(Integer.valueOf(5000), i.getLinear(5000));
+        assertEquals(Integer.valueOf(2555), i.getLinear(2555));
     }
 }

@@ -51,7 +51,6 @@ public class SkipList<T extends Comparable<? super T>> {
                 last[i] = head;
             }
             maxLevel = lev;
-
         }
 
         return (lev);
@@ -60,7 +59,6 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Add x to list. If x already exists, reject it. Returns true if new node is added to list
     public boolean add(T x) {
-
         if (contains(x))
             return (false);
 
@@ -75,8 +73,13 @@ public class SkipList<T extends Comparable<? super T>> {
         }
 
         // for every last that's above my level, add 1 to span
-        for (int i = lev; i < maxLevel; i++) {
-            last[i].span[i] += 1;
+        for (int i = lev; i < PossibleLevels; i++) {
+            // if last[i] is null, last element was head. Need to keep that in sync as well
+            if (last[i] != null) {
+                last[i].span[i] += 1;
+            } else {
+                head.span[i] += 1;
+            }
         }
 
         if (ent.next[0] != null)
@@ -89,17 +92,20 @@ public class SkipList<T extends Comparable<? super T>> {
 
     private void populateSpan(Entry<T> e, int level) {
         if (level == 0) {
-            e.span[level] = 0;  // bottom most entry doesn't skip anything
-            return;
-        }
-
-        if (e.next == null || e.next[level] == null || e.next[level - 1] == null) {
             e.span[level] = 0;
             return;
         }
 
-        boolean nextLevelsChanged = e.next[level].equals(e.next[level - 1]);
+        boolean nextLevelsChanged;
         boolean lastLevelsChanged = last[level].equals(last[level - 1]);
+
+        // guarding against some pointers pointing to tail
+        if (e.next == null || e.next[level] == null) {
+            nextLevelsChanged = e.next[level - 1] != null;
+        } else {
+            nextLevelsChanged = e.next[level].equals(e.next[level - 1]);
+        }
+
         if (nextLevelsChanged && lastLevelsChanged) {
             e.span[level] = last[level].span[level] - skipped[level - 1];
         } else if (nextLevelsChanged) {
@@ -111,6 +117,9 @@ public class SkipList<T extends Comparable<? super T>> {
         }
 
         last[level].span[level] = last[level].span[level] - e.span[level];
+        if (last[level].span[level] < 0) {
+            last[level].span[level] = 0;
+        }
     }
 
     // Find smallest element that is greater or equal to x
@@ -171,7 +180,7 @@ public class SkipList<T extends Comparable<? super T>> {
     // O(n) algorithm for get(n)
     public T getLinear(int n) {
         if (n < 0 || n > size - 1 || head.next[0] == null) {
-            throw new NoSuchElementException("Element Not Found");
+            throw new NoSuchElementException("Invalid index");
         }
 
         Entry<T> p = head.next[0];
@@ -192,7 +201,25 @@ public class SkipList<T extends Comparable<? super T>> {
     // Optional operation: Eligible for EC.
     // O(log n) expected time for get(n). Requires maintenance of spans, as discussed in class.
     public T getLog(int n) {
-        return null;
+        if (n < 0 || n > size - 1 || head.next[0] == null) {
+            throw new NoSuchElementException("Invalid index");
+        }
+
+        int i = maxLevel, traversed = 0;
+        Entry<T> p = head;
+        while (traversed <= n) {
+            if (p.span.length > i && p.span[i] <= n - traversed) {
+                traversed += p.span[i] + 1;
+                p = p.next[i];
+            } else {
+                // need extra check to make sure that we can safely travel on bottom most level
+                if (i > 0) {
+                    i--;
+                }
+            }
+        }
+
+        return p.element;
     }
 
     /**
