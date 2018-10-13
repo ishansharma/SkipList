@@ -12,7 +12,7 @@ import java.util.Random;
 public class SkipList<T extends Comparable<? super T>> {
     static final int PossibleLevels = 33;
 
-    Entry head, tail;
+    Entry head, tail, current;
     int size, maxLevel;
     // Constructor
     public SkipList() {
@@ -45,11 +45,8 @@ public class SkipList<T extends Comparable<? super T>> {
                 last[i] = head;
             }
             maxLevel = lev;
-
         }
-
         return (lev);
-
     }
 
     // Add x to list. If x already exists, reject it. Returns true if new node is added to list
@@ -59,10 +56,7 @@ public class SkipList<T extends Comparable<? super T>> {
             return (false);
 
         int lev = chooseLevel();
-
-
         Entry<T> ent = new Entry(x, lev);
-
         for (int i = 0; i < lev; i++) {
             ent.next[i] = last[i].next[i];
             last[i].next[i] = ent;
@@ -107,7 +101,7 @@ public class SkipList<T extends Comparable<? super T>> {
     public T floor(T x) {
        find(x);
        if (last[0] != null && last[0].next[0] != null) {
-           if (last[0].next[0].element == x) {
+           if (last[0].next[0].element.equals(x)) {
                return x;
            }
            else if (last[0].next[0].prev != null){
@@ -180,47 +174,53 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Optional operation: Reorganize the elements of the list into a perfect skip list
     // Not a standard operation in skip lists. Eligible for EC.
+    // Complexity is O(n)
+    //Add each element to exisiting perefect skiplist
     public void rebuild() {
 
         int rebuildSize = size;
+        int logN = ((int) (Math.log(rebuildSize)/Math.log(2))) + 1;
         Entry current = head.next[0];
+
         head = new Entry<>(null, PossibleLevels);
         tail = new Entry<>(null, PossibleLevels);
-        maxLevel = 1;
         last = new Entry[PossibleLevels];
+        for (int i = 0; i < logN; i++) {
+            last[i] = head;
+        }
         size = 0;
-
+        maxLevel = 1;
         int nodeIndex = 1;
+
         while(current != null) {
             Entry ent = current;
 
+            //calculating levels in particular node
             int level = 0;
             int number = 2;
-            while (nodeIndex <= rebuildSize && nodeIndex % number == 0 && level < Math.log(rebuildSize)) {
+            while (nodeIndex % number == 0 && level < logN) {
                 level = level + 1;
                 number  = number * 2;
             }
 
+            //storing next element in temp, needed in next iteration
             Entry storeTemp = ent.next[0];
+
+            //creating new levels for current node
             ent.next = new Entry[level + 1];
             ent.level = level + 1;
-
-            find(((T) ent.element));
+            ent.prev = last[0];
 
             if (ent.level > maxLevel) {
-                for (int i = maxLevel; i < ent.level; i++) {
-                    last[i] = head;
-                }
                 maxLevel = ent.level;
             }
 
+            //updating next pointers of current and last element, updating last array
             for (int i = 0; i < ent.level ; i++) {
                 ent.next[i] = last[i].next[i];
                 last[i].next[i] = ent;
+                last[i] = ent;
             }
-            if (ent.next[0] != null)
-                ent.next[0].prev = ent;
-            ent.prev = last[0];
 
             nodeIndex += 1;
             size = size + 1;
@@ -269,6 +269,13 @@ public class SkipList<T extends Comparable<? super T>> {
 
     public void printAllLevelOfCurrent() {
         Entry current = head;
+
+        System.out.print("Head : ");
+        for(int i =0; i < maxLevel; i++) {
+            System.out.print (head.next[i].element + " , ");
+        }
+        System.out.println("");
+
         while (current != null && current.next[0] != null) {
             System.out.println("Element : " + current.next[0].element);
             for (int i = 0; i< maxLevel; i++) {
@@ -309,7 +316,5 @@ public class SkipList<T extends Comparable<? super T>> {
             current = current.next[0];
             return res;
         }
-
-
     }
 }

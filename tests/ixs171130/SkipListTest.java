@@ -65,8 +65,6 @@ class SkipListTest {
             out[i] = it.next();
             expected[i] = i + 1;
         }
-        System.out.println(Arrays.toString(out));
-//        s.printAllLevelOfCurrent();
         assertEquals(Arrays.toString(expected), Arrays.toString(out));
     }
 
@@ -76,7 +74,362 @@ class SkipListTest {
         assertNull(s.first());
         assertTrue(s.add(1));
         assertEquals(Integer.valueOf(1), s.first());
+
+        SkipList<Integer> integerSkipList = new SkipList<>();
+        Integer[] toAdd = {1, 4, 2, 7, 5, 9, -10, 654, 34, 12, 86, -20, -999, 999, 100000, -1000000};
+        Integer[] expected = {-1000000, -999, -20, -10, 1, 2, 4, 5, 7, 9, 12, 34, 86, 654, 999, 100000};
+
+        for (int x : toAdd) {
+            integerSkipList.add(x);
+        }
+        Integer[] res = new Integer[16];
+        Iterator<Integer> it = integerSkipList.iterator();
+        int index = 0;
+        while (it.hasNext()) {
+            res[index] = it.next();
+            index++;
+        }
+        assertEquals(Arrays.toString(expected), Arrays.toString(res));
+        assertEquals(Integer.valueOf(-1000000), integerSkipList.first());
+
+        Integer[] toAdd1 = {9, 1, 4, 2, 5, 6, 8, 3, 7, 10, -1, 0, 13};
+        Integer[] expected1 = {-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13};
+        SkipList<Integer> integerSkipList1 = new SkipList<>();
+        for (int x : toAdd1) {
+            integerSkipList1.add(x);
+        }
+        Integer[] res1 = new Integer[13];
+        Iterator<Integer> it1 = integerSkipList1.iterator();
+        int index1 = 0;
+        while (it1.hasNext()) {
+            res1[index1] = it1.next();
+            index1++;
+        }
+        assertEquals(Arrays.toString(expected1), Arrays.toString(res1));
+        assertEquals(Integer.valueOf(-1), integerSkipList1.first());
+
+        Integer[] toAdd2 = {0};
+        Integer[] expected2 = {0};
+        SkipList<Integer> integerSkipList2 = new SkipList<>();
+        for (int x : toAdd2) {
+            integerSkipList2.add(x);
+        }
+        Integer[] res2 = new Integer[1];
+        Iterator<Integer> it2 = integerSkipList2.iterator();
+        int index2 = 0;
+        while (it2.hasNext()) {
+            res2[index2] = it2.next();
+            index2++;
+        }
+        assertEquals(Arrays.toString(expected2), Arrays.toString(res2));
+        assertEquals(Integer.valueOf(0), integerSkipList2.first());
+
+        Integer[] toAdd3 = {0, 1, 3};
+        Integer[] expected3 = {0, 1, 3};
+        SkipList<Integer> integerSkipList3 = new SkipList<>();
+        for (int x : toAdd3) {
+            integerSkipList3.add(x);
+        }
+
+        Integer[] res3 = new Integer[3];
+        Iterator<Integer> it3 = integerSkipList3.iterator();
+        int index3 = 0;
+        while (it3.hasNext()) {
+            res3[index3] = it3.next();
+            index3++;
+        }
+        assertEquals(Arrays.toString(expected3), Arrays.toString(res3));
+        assertEquals(Integer.valueOf(0), integerSkipList3.first());
+
+        SkipList<Integer> integerSkipList4 = new SkipList<>();
+        Integer[] toAdd4 = {1};
+        Integer[] expected4 = {1};
+
+        for (int x : toAdd4) {
+            integerSkipList4.add(x);
+        }
+
+        assertEquals(Integer.valueOf(1), integerSkipList4.first());
     }
+
+    //TODO:
+    @Test
+    void last() {
+        // build a skiplist with random order
+        SkipList<Integer> s = new SkipList<>();
+        assertNull(s.last());
+        assertTrue(s.add(1));
+        assertEquals(Integer.valueOf(1), s.last());
+
+        SkipList<Integer> integerSkipList = new SkipList<>();
+        Integer[] toAdd = {1, 4, 2, 7, 5, 9, -10, 654, 34, 12, 86, -20, -999, 999, 100000, -1000000};
+        Integer[] expected = {-1000000, -999, -20, -10, 1, 2, 4, 5, 7, 9, 12, 34, 86, 654, 999, 100000};
+
+        for (int x : toAdd) {
+            integerSkipList.add(x);
+        }
+        Integer[] res = new Integer[16];
+        Iterator<Integer> it = integerSkipList.iterator();
+        int index = 0;
+        while (it.hasNext()) {
+            res[index] = it.next();
+            index++;
+        }
+        assertEquals(Arrays.toString(expected), Arrays.toString(res));
+        assertEquals(Integer.valueOf(100000), integerSkipList.last());
+
+        Integer[] toAdd1 = {9, 1, 4, 2, 5, 6, 8, 3, 7, 10, -1, 0, 13};
+        Integer[] expected1 = {-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13};
+        SkipList<Integer> integerSkipList1 = new SkipList<>();
+        for (int x : toAdd1) {
+            integerSkipList1.add(x);
+        }
+        Integer[] res1 = new Integer[13];
+        Iterator<Integer> it1 = integerSkipList1.iterator();
+        int index1 = 0;
+        while (it1.hasNext()) {
+            res1[index1] = it1.next();
+            index1++;
+        }
+        assertEquals(Arrays.toString(expected1), Arrays.toString(res1));
+        assertEquals(Integer.valueOf(13), integerSkipList1.last());
+
+        Integer[] toAdd2 = {0};
+        Integer[] expected2 = {0};
+        SkipList<Integer> integerSkipList2 = new SkipList<>();
+        for (int x : toAdd2) {
+            integerSkipList2.add(x);
+        }
+        Integer[] res2 = new Integer[1];
+        Iterator<Integer> it2 = integerSkipList2.iterator();
+        int index2 = 0;
+        while (it2.hasNext()) {
+            res2[index2] = it2.next();
+            index2++;
+        }
+        assertEquals(Arrays.toString(expected2), Arrays.toString(res2));
+        assertEquals(Integer.valueOf(0), integerSkipList2.last());
+
+        Integer[] toAdd3 = {0, 1, 3};
+        Integer[] expected3 = {0, 1, 3};
+        SkipList<Integer> integerSkipList3 = new SkipList<>();
+        for (int x : toAdd3) {
+            integerSkipList3.add(x);
+        }
+
+        Integer[] res3 = new Integer[3];
+        Iterator<Integer> it3 = integerSkipList3.iterator();
+        int index3 = 0;
+        while (it3.hasNext()) {
+            res3[index3] = it3.next();
+            index3++;
+        }
+        assertEquals(Arrays.toString(expected3), Arrays.toString(res3));
+        assertEquals(Integer.valueOf(3), integerSkipList3.last());
+
+        SkipList<Integer> integerSkipList4 = new SkipList<>();
+        Integer[] toAdd4 = {1};
+        Integer[] expected4 = {1};
+
+        for (int x : toAdd4) {
+            integerSkipList4.add(x);
+        }
+
+        assertEquals(Integer.valueOf(1), integerSkipList4.last());
+    }
+
+    @Test
+    void floor() {
+        SkipList<Integer> integerSkipList = new SkipList<>();
+        Integer[] toAdd = {1, 4, 2, 7, 5, 9, -10, 654, 34, 12, 86, -20, -999, 999, 100000, -1000000};
+        Integer[] expected = {-1000000, -999, -20, -10, 1, 2, 4, 5, 7, 9, 12, 34, 86, 654, 999, 100000};
+
+        for (int x : toAdd) {
+            integerSkipList.add(x);
+        }
+        Integer[] res = new Integer[16];
+        Iterator<Integer> it = integerSkipList.iterator();
+        int index = 0;
+        while (it.hasNext()) {
+            res[index] = it.next();
+            index++;
+        }
+        assertEquals(Arrays.toString(expected), Arrays.toString(res));
+        assertEquals(Integer.valueOf(7), integerSkipList.floor(7));
+        assertEquals(Integer.valueOf(7), integerSkipList.floor(8));
+        assertEquals(Integer.valueOf(-1000000), integerSkipList.floor(-1000000));
+        assertEquals(Integer.valueOf(100000), integerSkipList.floor(100000));
+        assertNull(integerSkipList.floor(-1000005));
+        assertEquals(Integer.valueOf(100000), integerSkipList.floor(1000005));
+
+        Integer[] toAdd1 = { 9, 1, 4, 2, 5, 6, 8, 3,7, 10, -1, 0, 13};
+        Integer[] expected1 = { -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13};
+        SkipList<Integer> integerSkipList1 = new SkipList<>();
+        for (int x : toAdd1) {
+            integerSkipList1.add(x);
+        }
+        Integer[] res1 = new Integer[13];
+        Iterator<Integer> it1 = integerSkipList1.iterator();
+        int index1 = 0;
+        while (it1.hasNext()) {
+            res1[index1] = it1.next();
+            index1++;
+        }
+        assertEquals(Arrays.toString(expected1), Arrays.toString(res1));
+        assertEquals(Integer.valueOf(7), integerSkipList1.floor(7));
+        assertEquals(Integer.valueOf(10), integerSkipList1.floor(11));
+        assertNull(integerSkipList1.floor(-2));
+        assertEquals(Integer.valueOf(13), integerSkipList1.floor(14));
+        assertEquals(Integer.valueOf(13), integerSkipList1.floor(13));
+        assertEquals(Integer.valueOf(-1), integerSkipList1.floor(-1));
+
+        Integer[] toAdd2 = { 0 };
+        Integer[] expected2 = { 0 };
+        SkipList<Integer> integerSkipList2 = new SkipList<>();
+        for (int x : toAdd2) {
+            integerSkipList2.add(x);
+        }
+        Integer[] res2 = new Integer[1];
+        Iterator<Integer> it2 = integerSkipList2.iterator();
+        int index2 = 0;
+        while (it2.hasNext()) {
+            res2[index2] = it2.next();
+            index2++;
+        }
+        assertEquals(Arrays.toString(expected2), Arrays.toString(res2));
+        assertEquals(Integer.valueOf(0), integerSkipList2.floor(0));
+        assertEquals(Integer.valueOf(0), integerSkipList2.floor(1));
+        assertNull(integerSkipList2.floor(-1));
+
+        Integer[] toAdd3 = { 0, 1,  3 };
+        Integer[] expected3 = { 0, 1,  3 };
+        SkipList<Integer> integerSkipList3 = new SkipList<>();
+        for (int x : toAdd3) {
+            integerSkipList3.add(x);
+        }
+
+        Integer[] res3 = new Integer[3];
+        Iterator<Integer> it3 = integerSkipList3.iterator();
+        int index3 = 0;
+        while (it3.hasNext()) {
+            res3[index3] = it3.next();
+            index3++;
+        }
+        assertEquals(Arrays.toString(expected3), Arrays.toString(res3));
+        assertEquals(Integer.valueOf(1), integerSkipList3.floor(1));
+        assertEquals(Integer.valueOf(1), integerSkipList3.floor(2));
+        assertEquals(Integer.valueOf(3), integerSkipList3.floor(11));
+        assertNull(integerSkipList3.floor(-2));
+
+        SkipList<Integer> integerSkipList4 = new SkipList<>();
+        Integer[] toAdd4 = {1 };
+        Integer[] expected4 = {1 };
+
+        for (int x : toAdd4) {
+            integerSkipList4.add(x);
+        }
+
+        assertEquals(Integer.valueOf(1), integerSkipList4.floor(1));
+        assertEquals(Integer.valueOf(1), integerSkipList4.floor(5));
+        assertNull(integerSkipList4.floor(-1));
+    }
+
+    @Test
+    void ceiling() {
+        SkipList<Integer> integerSkipList = new SkipList<>();
+        Integer[] toAdd = {1, 4, 2, 7, 5, 9, -10, 654, 34, 12, 86, -20, -999, 999, 100000, -1000000};
+        Integer[] expected = {-1000000, -999, -20, -10, 1, 2, 4, 5, 7, 9, 12, 34, 86, 654, 999, 100000};
+
+        for (int x : toAdd) {
+            integerSkipList.add(x);
+        }
+        Integer[] res = new Integer[16];
+        Iterator<Integer> it = integerSkipList.iterator();
+        int index = 0;
+        while (it.hasNext()) {
+            res[index] = it.next();
+            index++;
+        }
+        assertEquals(Arrays.toString(expected), Arrays.toString(res));
+        assertEquals(Integer.valueOf(7), integerSkipList.ceiling(7));
+        assertEquals(Integer.valueOf(9), integerSkipList.ceiling(8));
+        assertEquals(Integer.valueOf(-1000000), integerSkipList.ceiling(-1000000));
+        assertEquals(Integer.valueOf(100000), integerSkipList.ceiling(100000));
+        assertNull(integerSkipList.ceiling(1000005));
+        assertEquals(Integer.valueOf(-1000000), integerSkipList.ceiling(-1000005));
+
+        Integer[] toAdd1 = { 9, 1, 4, 2, 5, 6, 8, 3,7, 10, -1, 0, 13};
+        Integer[] expected1 = { -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13};
+        SkipList<Integer> integerSkipList1 = new SkipList<>();
+        for (int x : toAdd1) {
+            integerSkipList1.add(x);
+        }
+        Integer[] res1 = new Integer[13];
+        Iterator<Integer> it1 = integerSkipList1.iterator();
+        int index1 = 0;
+        while (it1.hasNext()) {
+            res1[index1] = it1.next();
+            index1++;
+        }
+        assertEquals(Arrays.toString(expected1), Arrays.toString(res1));
+        assertEquals(Integer.valueOf(7), integerSkipList1.ceiling(7));
+        assertEquals(Integer.valueOf(13), integerSkipList1.ceiling(11));
+        assertNull(integerSkipList1.ceiling(14));
+        assertEquals(Integer.valueOf(13), integerSkipList1.ceiling(13));
+        assertEquals(Integer.valueOf(-1), integerSkipList1.ceiling(-2));
+        assertEquals(Integer.valueOf(-1), integerSkipList1.ceiling(-1));
+
+        Integer[] toAdd2 = { 0 };
+        Integer[] expected2 = { 0 };
+        SkipList<Integer> integerSkipList2 = new SkipList<>();
+        for (int x : toAdd2) {
+            integerSkipList2.add(x);
+        }
+        Integer[] res2 = new Integer[1];
+        Iterator<Integer> it2 = integerSkipList2.iterator();
+        int index2 = 0;
+        while (it2.hasNext()) {
+            res2[index2] = it2.next();
+            index2++;
+        }
+        assertEquals(Arrays.toString(expected2), Arrays.toString(res2));
+        assertEquals(Integer.valueOf(0), integerSkipList2.ceiling(0));
+        assertEquals(Integer.valueOf(0), integerSkipList2.ceiling(-1));
+        assertNull(integerSkipList2.ceiling(1));
+
+        Integer[] toAdd3 = { 0, 1,  3 };
+        Integer[] expected3 = { 0, 1,  3 };
+        SkipList<Integer> integerSkipList3 = new SkipList<>();
+        for (int x : toAdd3) {
+            integerSkipList3.add(x);
+        }
+
+        Integer[] res3 = new Integer[3];
+        Iterator<Integer> it3 = integerSkipList3.iterator();
+        int index3 = 0;
+        while (it3.hasNext()) {
+            res3[index3] = it3.next();
+            index3++;
+        }
+        assertEquals(Arrays.toString(expected3), Arrays.toString(res3));
+        assertEquals(Integer.valueOf(1), integerSkipList3.ceiling(1));
+        assertEquals(Integer.valueOf(3), integerSkipList3.ceiling(2));
+        assertEquals(Integer.valueOf(0), integerSkipList3.ceiling(-1));
+        assertNull(integerSkipList3.ceiling(11));
+
+        SkipList<Integer> integerSkipList4 = new SkipList<>();
+        Integer[] toAdd4 = {1 };
+        Integer[] expected4 = {1 };
+
+        for (int x : toAdd4) {
+            integerSkipList4.add(x);
+        }
+
+        assertEquals(Integer.valueOf(1), integerSkipList4.ceiling(1));
+        assertEquals(Integer.valueOf(1), integerSkipList4.ceiling(-5));
+        assertNull(integerSkipList4.ceiling(11));
+    }
+
 
     @Test
     void iterator() {
@@ -103,30 +456,11 @@ class SkipListTest {
         SkipList<Integer> integerSkipList = new SkipList<>();
         Integer[] toAdd = {1, 4, 2, 7, 5, 9, -10, 654, 34, 12, 86, -20, -999, 999, 100000, -1000000};
         Integer[] expected = {-1000000, -999, -20, -10, 1, 2, 4, 5, 7, 9, 12, 34, 86, 654, 999, 100000};
-
+//        Integer[] toAdd = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+//        Integer[] expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
         for (int x : toAdd) {
             integerSkipList.add(x);
         }
-
-        System.out.println(" floor of 7 " + integerSkipList.floor(7));
-        System.out.println(" ceiling of 7 " + integerSkipList.ceiling(7));
-
-        System.out.println(" floor of 8 " + integerSkipList.floor(8));
-        System.out.println(" ceiling of 8 " + integerSkipList.ceiling(8));
-
-        System.out.println(" floor of -1000000 " + integerSkipList.floor(-1000000));
-        System.out.println(" ceiling of -1000000 " + integerSkipList.ceiling(-1000000));
-
-        System.out.println(" floor of 1000000 " + integerSkipList.floor(1000000));
-        System.out.println(" ceiling of 1000000 " + integerSkipList.ceiling(1000000));
-
-        System.out.println(" floor of -1000005 " + integerSkipList.floor(-1000005));
-        System.out.println(" ceiling of -1000005 " + integerSkipList.ceiling(-1000005));
-
-        System.out.println(" floor of 1000005 " + integerSkipList.floor(1000005));
-        System.out.println(" ceiling of 1000005 " + integerSkipList.ceiling(1000005));
-
-        System.out.println("last of list : " + integerSkipList.last());
 
         Integer[] res = new Integer[16];
         Iterator<Integer> it = integerSkipList.iterator();
@@ -138,7 +472,7 @@ class SkipListTest {
         assertEquals(Arrays.toString(expected), Arrays.toString(res));
 
         integerSkipList.rebuild();
-        System.out.println(Arrays.toString(res));
+        System.out.println("Rebuild : " + Arrays.toString(res));
         integerSkipList.printAllLevelOfCurrent();
 
         Integer[] toAdd1 = { 9, 1, 4, 2, 5, 6, 8, 3,7, 10, -1, 0, 13};
@@ -147,26 +481,6 @@ class SkipListTest {
         for (int x : toAdd1) {
             integerSkipList1.add(x);
         }
-
-        System.out.println(" floor of 7 " + integerSkipList1.floor(7));
-        System.out.println(" ceiling of 7 " + integerSkipList1.ceiling(7));
-
-        System.out.println(" floor of 11 " + integerSkipList1.floor(11));
-        System.out.println(" ceiling of 11 " + integerSkipList1.ceiling(11));
-
-        System.out.println(" floor of -2 " + integerSkipList1.floor(-2));
-        System.out.println(" ceiling of -2 " + integerSkipList1.ceiling(-2));
-
-        System.out.println(" floor of 14 " + integerSkipList1.floor(14));
-        System.out.println(" ceiling of 14 " + integerSkipList1.ceiling(14));
-
-        System.out.println(" floor of -1 " + integerSkipList1.floor(-1));
-        System.out.println(" ceiling of -1 " + integerSkipList1.ceiling(-1));
-
-        System.out.println(" floor of 13 " + integerSkipList1.floor(13));
-        System.out.println(" ceiling of 13 " + integerSkipList1.ceiling(13));
-
-        System.out.println("last of list : " + integerSkipList1.last());
 
         Integer[] res1 = new Integer[13];
         Iterator<Integer> it1 = integerSkipList1.iterator();
@@ -222,29 +536,6 @@ class SkipListTest {
         System.out.println(Arrays.toString(res3));
         integerSkipList3.printAllLevelOfCurrent();
 
-        System.out.println(" floor of 2 " + integerSkipList3.floor(2));
-        System.out.println(" ceiling of 2 " + integerSkipList3.ceiling(2));
-
-        System.out.println("last of list : " + integerSkipList3.last());
-
-        SkipList<Integer> integerSkipList4 = new SkipList<>();
-        Integer[] toAdd4 = {1 };
-        Integer[] expected4 = {1 };
-
-        for (int x : toAdd4) {
-            integerSkipList4.add(x);
-        }
-
-        System.out.println(" floor of 1 " + integerSkipList4.floor(1));
-        System.out.println(" ceiling of 1 " + integerSkipList4.ceiling(1));
-
-        System.out.println(" floor of -1 " + integerSkipList4.floor(-1));
-        System.out.println(" ceiling of -1 " + integerSkipList4.ceiling(-1));
-
-        System.out.println(" floor of 5 " + integerSkipList4.floor(5));
-        System.out.println(" ceiling of 5 " + integerSkipList4.ceiling(5));
-
-        System.out.println("last of list : " + integerSkipList4.last());
     }
 
     @Test
