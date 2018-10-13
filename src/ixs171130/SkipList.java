@@ -149,18 +149,19 @@ public class SkipList<T extends Comparable<? super T>> {
     // Find largest element that is less than or equal to x
     public T floor(T x) {
        find(x);
-       if (last[0] != null && last[0].next[0] != null) {
-           if (last[0].next[0].element.equals(x)) {
-               return x;
-           }
-           else if (last[0].next[0].prev != null){
-               return ((T) last[0].next[0].prev.element);
-           }
-       }
-       else if (last[0] != null) {
-           return ((T) last[0].element);
-       }
-       return null;
+        if (last[0] != null && last[0].next[0] != null) {
+            if (last[0].next[0].element.equals(x)) {
+                return x;
+            }
+            else {
+                return ((T) last[0].element);
+            }
+        }
+        else if (last[0] != null){
+            return ((T) last[0].element);
+        }
+        else 
+            return null;
     }
 
     /**

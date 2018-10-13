@@ -25,13 +25,18 @@ public class SkipListDriver {
         SkipList<Long> skipList = new SkipList<>();
         // Initialize the timer
         Timer timer = new Timer();
-
+        int index = 0;
         while (!((operation = sc.next()).equals("End"))) {
+            index++;
             switch (operation) {
                 case "Add": {
                     operand = sc.nextLong();
                     if (skipList.add(operand)) {
                         result = (result + 1) % modValue;
+                        System.out.println(index + " Add : " + 1);
+                    }
+                    else {
+                        System.out.println(index + " Add : " + 0);
                     }
                     break;
                 }
@@ -40,6 +45,10 @@ public class SkipListDriver {
                     returnValue = skipList.ceiling(operand);
                     if (returnValue != null) {
                         result = (result + returnValue) % modValue;
+                        System.out.println(index + " Ceiling : " + returnValue);
+                    }
+                    else {
+                        System.out.println(index + " Ceiling : " + returnValue);
                     }
                     break;
                 }
@@ -48,6 +57,7 @@ public class SkipListDriver {
                     if (returnValue != null) {
                         result = (result + returnValue) % modValue;
                     }
+                    System.out.println(index + " First : " + returnValue);
                     break;
                 }
                 case "Get": {
@@ -56,6 +66,7 @@ public class SkipListDriver {
                     if (returnValue != null) {
                         result = (result + returnValue) % modValue;
                     }
+                    System.out.println(index + " Get : " + returnValue);
                     break;
                 }
                 case "Last": {
@@ -63,6 +74,7 @@ public class SkipListDriver {
                     if (returnValue != null) {
                         result = (result + returnValue) % modValue;
                     }
+                    System.out.println(index + " Last : " + returnValue);
                     break;
                 }
                 case "Floor": {
@@ -71,12 +83,17 @@ public class SkipListDriver {
                     if (returnValue != null) {
                         result = (result + returnValue) % modValue;
                     }
+                    System.out.println(index + " Floor : " + returnValue);
                     break;
                 }
                 case "Remove": {
                     operand = sc.nextLong();
                     if (skipList.remove(operand) != null) {
                         result = (result + 1) % modValue;
+                        System.out.println(index + " Remove : " + 1);
+                    }
+                    else {
+                        System.out.println(index + " Remove : " + 0);
                     }
                     break;
                 }
@@ -84,7 +101,12 @@ public class SkipListDriver {
                     operand = sc.nextLong();
                     if (skipList.contains(operand)) {
                         result = (result + 1) % modValue;
+                        System.out.println(index + " Contains : " + 1);
                     }
+                    else {
+                        System.out.println(index + " Contains : " + 0);
+                    }
+
                     break;
                 }
 
