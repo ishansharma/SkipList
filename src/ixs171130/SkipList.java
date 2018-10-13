@@ -89,6 +89,12 @@ public class SkipList<T extends Comparable<? super T>> {
 
     }
 
+    /**
+     * Update counts for any links that are broken by this entry. Called by add()
+     *
+     * @param e     Current entry being added
+     * @param level Level for which span has to be calculated
+     */
     private void populateSpan(Entry<T> e, int level) {
         if (level == 0) {
             e.span[level] = 0;
@@ -96,8 +102,6 @@ public class SkipList<T extends Comparable<? super T>> {
         }
 
         boolean nextLevelsChanged;
-        boolean lastLevelsChanged = last[level].equals(last[level - 1]);
-
         // guarding against some pointers pointing to tail
         if (e.next == null || e.next[level] == null) {
             nextLevelsChanged = e.next[level - 1] != null;
@@ -105,20 +109,13 @@ public class SkipList<T extends Comparable<? super T>> {
             nextLevelsChanged = e.next[level].equals(e.next[level - 1]);
         }
 
-        if (nextLevelsChanged && lastLevelsChanged) {
+        if (nextLevelsChanged) {
             e.span[level] = last[level].span[level] - skipped[level - 1];
-        } else if (nextLevelsChanged) {
-            e.span[level] = last[level].span[level] - skipped[level - 1];
-        } else if (lastLevelsChanged) {
-            e.span[level] = e.span[level - 1];
         } else {
             e.span[level] = e.span[level - 1];
         }
 
         last[level].span[level] = last[level].span[level] - e.span[level];
-        if (last[level].span[level] < 0) {
-            last[level].span[level] = 0;
-        }
     }
 
     // Find smallest element that is greater or equal to x
