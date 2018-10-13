@@ -540,7 +540,7 @@ class SkipListTest {
 
     }
 
-    @Test
+    @RepeatedTest(10)
     void remove() {
         SkipList<Integer> i = new SkipList<>();
 
