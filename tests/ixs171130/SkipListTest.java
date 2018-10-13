@@ -437,17 +437,23 @@ class SkipListTest {
     void iterator() {
         SkipList<Integer> integerSkipList1 = new SkipList<>();
 
-        // add elements till 10000000
+        // add elements till 10000
         for (int i = 0; i < 10000; i++) {
             integerSkipList1.add(i);
         }
 
         // see if the elements are in same order
         int index = 0;
-        Iterator<Integer> it = integerSkipList1.iterator();
+        SkipList.customSLIterator<Integer> it = (SkipList.customSLIterator<Integer>) integerSkipList1.iterator();
         while (it.hasNext()) {
             assertEquals((Integer) index, it.next());
             index++;
+        }
+
+        index = index - 2; // we are at 9999. But prev will be 9998. So fixing for that
+        while (it.hasPrev()) {
+            assertEquals((Integer) index, it.prev());
+            index--;
         }
 
         iteratorIntegerRandom();

@@ -218,15 +218,6 @@ public class SkipList<T extends Comparable<? super T>> {
         return p.element;
     }
 
-    /**
-     * An iterator for iterating in sorted order
-     *
-     * @return an instance of skipListIterator
-     */
-    public Iterator<T> iterator() {
-        return new skipListIterator();
-    }
-
     // Return last element of list
     public T last() {
         Entry<T> p = head;
@@ -390,20 +381,50 @@ public class SkipList<T extends Comparable<? super T>> {
     }
 
     /**
+     * An iterator for iterating in sorted order
+     *
+     * @return an instance of skipListIterator
+     */
+    public Iterator<T> iterator() {
+        return new skipListIterator();
+    }
+
+    /**
+     * Custom Interface class that extends Iterator
+     * Needed because Java Iterator doesn't have hasPrev() or prev() and we need them for EC
+     *
+     * @param <T>
+     */
+    public interface customSLIterator<T> extends Iterator<T> {
+        boolean hasNext();
+
+        boolean hasPrev();
+
+        T next();
+
+        T prev();
+    }
+
+    /**
      * Iterator class for iterating through the list in sorted order
      *
      * @author Ishan
      */
-    private class skipListIterator implements Iterator<T> {
+    private class skipListIterator implements customSLIterator<T> {
         Entry current = head;
 
+        /**
+         * Does current entry have a next element
+         * @return boolean
+         */
         public boolean hasNext() {
-            if (current != null && current.next[0] != null) {
-                return true;
-            }
-            return false;
+            return current != null && current.next[0] != null;
         }
 
+        /**
+         * Return element next to current element
+         * @return Next element in the list
+         */
         public T next() {
             if (current == null || current.next == null) {
                 throw new NoSuchElementException("No next element in the List");
@@ -411,6 +432,30 @@ public class SkipList<T extends Comparable<? super T>> {
 
             T res = (T) current.next[0].element;
             current = current.next[0];
+            return res;
+        }
+
+        /**
+         * If current element has a previous element, return true. False otherwise
+         *
+         * @return boolean
+         */
+        public boolean hasPrev() {
+            return current != null && current.prev != null && current.prev.element != null;
+        }
+
+        /**
+         * Return element before current element in the list
+         *
+         * @return Previous element in the list
+         */
+        public T prev() {
+            if (current == null || current.prev == null) {
+                throw new NoSuchElementException("No previous element in the list");
+            }
+
+            T res = (T) current.prev.element;
+            current = current.prev;
             return res;
         }
     }
