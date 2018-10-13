@@ -304,6 +304,30 @@ public class SkipList<T extends Comparable<? super T>> {
         if (!contains(x))
             return (null);
         Entry<T> ent = last[0].next[0];
+
+        // update spans before removing
+        for (int i = 1; i < ent.level; i++) {
+            // decreases are done only if we have more than 0 elements
+            // in span
+            if (last[i] == null) {
+                // if last[i] is null, that's pointing to head.
+                head.span[i] = head.span[i] + ent.span[i];
+            } else {
+                last[i].span[i] = last[i].span[i] + ent.span[i];
+            }
+        }
+
+        // for every other last not involving the element, just decrease by 1
+        for (int i = ent.level; i < PossibleLevels; i++) {
+            if (last[i] == null) {
+                // if last[i] is null, that's pointing to head.
+                head.span[i] = head.span[i] - 1;
+            } else {
+                last[i].span[i] = last[i].span[i] - 1;
+            }
+        }
+
+
         for (int i = 0; i <= ent.next.length - 1; i++) {
             last[i].next[i] = ent.next[i];
         }

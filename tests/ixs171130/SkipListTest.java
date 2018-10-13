@@ -621,4 +621,34 @@ class SkipListTest {
         assertEquals(Integer.valueOf(5000), i.getLinear(5000));
         assertEquals(Integer.valueOf(2555), i.getLinear(2555));
     }
+
+    @RepeatedTest(5)
+    void getLogAfterRemove() {
+        SkipList<Integer> i = new SkipList<>();
+
+        assertThrows(NoSuchElementException.class, () -> i.getLog(0));
+
+        for (int x = 0; x <= 10000; x++) {
+            i.add(x);
+        }
+
+        i.remove(5);
+        assertEquals(Integer.valueOf(6), i.getLog(5));
+
+        i.remove(10);
+        assertEquals(Integer.valueOf(12), i.get(10));
+
+        // make sure previous elements aren't affected
+        assertEquals(Integer.valueOf(0), i.get(0));
+        assertEquals(Integer.valueOf(4), i.get(4));
+
+        // test at some other indexes
+        i.remove(20);
+        assertEquals(Integer.valueOf(23), i.get(20));
+
+        i.remove(10000);
+        assertEquals(Integer.valueOf(9999), i.get(9996));
+
+        assertThrows(NoSuchElementException.class, () -> i.get(9997));
+    }
 }
