@@ -12,7 +12,7 @@ import java.util.Random;
 public class SkipList<T extends Comparable<? super T>> {
     static final int PossibleLevels = 33;
 
-    Entry head, tail;
+    Entry head, tail, current;
     int size, maxLevel;
     int[] skipped;  // maintains number of nodes we skipped after the last entry in last[i]. Required for span[]
 
@@ -51,10 +51,9 @@ public class SkipList<T extends Comparable<? super T>> {
                 last[i] = head;
             }
             maxLevel = lev;
+
         }
-
         return (lev);
-
     }
 
     // Add x to list. If x already exists, reject it. Returns true if new node is added to list
@@ -245,6 +244,8 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Optional operation: Reorganize the elements of the list into a perfect skip list
     // Not a standard operation in skip lists. Eligible for EC.
+    // Complexity is O(n)
+    //Add each element to exisiting perefect skiplist
     public void rebuild() {
 
         int rebuildSize = size;
@@ -281,6 +282,9 @@ public class SkipList<T extends Comparable<? super T>> {
             ent.prev = last[0];
 
             if (ent.level > maxLevel) {
+                for (int i = maxLevel; i < ent.level; i++) {
+                    last[i] = head;
+                }
                 maxLevel = ent.level;
             }
 
@@ -365,6 +369,13 @@ public class SkipList<T extends Comparable<? super T>> {
 
     public void printAllLevelOfCurrent() {
         Entry current = head;
+
+        System.out.print("Head : ");
+        for(int i =0; i < maxLevel; i++) {
+            System.out.print (head.next[i].element + " , ");
+        }
+        System.out.println("");
+
         while (current != null && current.next[0] != null) {
             System.out.println("Element : " + current.next[0].element);
             for (int i = 0; i< maxLevel; i++) {
@@ -405,7 +416,5 @@ public class SkipList<T extends Comparable<? super T>> {
             current = current.next[0];
             return res;
         }
-
-
     }
 }
