@@ -268,6 +268,7 @@ public class SkipList<T extends Comparable<? super T>> {
             ent.next = new Entry[level + 1];
             ent.level = level + 1;
             ent.prev = last[0];
+            ent.span = new int[ent.level];
 
             if (ent.level > maxLevel) {
                 for (int i = maxLevel; i < ent.level; i++) {
@@ -281,6 +282,17 @@ public class SkipList<T extends Comparable<? super T>> {
                 ent.next[i] = last[i].next[i];
                 last[i].next[i] = ent;
                 last[i] = ent;
+                populateSpan(ent, i);
+            }
+
+            // for every last that's above my level, add 1 to span
+            for (int i = ent.level; i < PossibleLevels; i++) {
+                // if last[i] is null, last element was head. Need to keep that in sync as well
+                if (last[i] != null) {
+                    last[i].span[i] += 1;
+                } else {
+                    head.span[i] += 1;
+                }
             }
 
             nodeIndex += 1;
@@ -368,7 +380,7 @@ public class SkipList<T extends Comparable<? super T>> {
             System.out.println("Element : " + current.next[0].element);
             for (int i = 0; i< maxLevel; i++) {
                 if (i < current.next[0].level && current.next[0].next[i] != null) {
-                    System.out.println("Level " + i + " : " + current.next[0].next[i].element);
+                    System.out.println("Level " + i + " : " + current.next[0].next[i].element + " span: " + current.next[0].span[i]);
                 }
                 else {
                     break;
