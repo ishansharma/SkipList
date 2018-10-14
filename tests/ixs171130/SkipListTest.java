@@ -25,7 +25,7 @@ class SkipListTest {
         }
     }
 
-    @Test
+    @RepeatedTest(10)
     void add() {
         SkipList<Integer> s = new SkipList<>();
         assertTrue(s.add(1));
@@ -154,18 +154,19 @@ class SkipListTest {
         assertEquals(Integer.valueOf(1), integerSkipList4.first());
     }
 
-    //TODO:
-    @Test
+    @RepeatedTest(100)
     void last() {
         // build a skiplist with random order
-        SkipList<Integer> s = new SkipList<>();
-        assertNull(s.last());
-        assertTrue(s.add(1));
-        assertEquals(Integer.valueOf(1), s.last());
+//        SkipList<Integer> s = new SkipList<>();
+//        assertNull(s.last());
+//        assertTrue(s.add(1));
+//        assertEquals(Integer.valueOf(1), s.last());
 
         SkipList<Integer> integerSkipList = new SkipList<>();
         Integer[] toAdd = {1, 4, 2, 7, 5, 9, -10, 654, 34, 12, 86, -20, -999, 999, 100000, -1000000};
         Integer[] expected = {-1000000, -999, -20, -10, 1, 2, 4, 5, 7, 9, 12, 34, 86, 654, 999, 100000};
+//        Integer[] toAdd = {5, -10, 100000, 1, 3};
+//        Integer[] expected = {-10, 1, 3, 5, 100000};
 
         for (int x : toAdd) {
             integerSkipList.add(x);
@@ -178,6 +179,10 @@ class SkipListTest {
             index++;
         }
         assertEquals(Arrays.toString(expected), Arrays.toString(res));
+//        if(!Integer.valueOf(100000).equals(integerSkipList.last())) {
+//            integerSkipList.printAllLevelOfCurrent();
+//        }
+
         assertEquals(Integer.valueOf(100000), integerSkipList.last());
 
         Integer[] toAdd1 = {9, 1, 4, 2, 5, 6, 8, 3, 7, 10, -1, 0, 13};
@@ -194,6 +199,10 @@ class SkipListTest {
             index1++;
         }
         assertEquals(Arrays.toString(expected1), Arrays.toString(res1));
+
+        if (!Integer.valueOf(13).equals(integerSkipList1.last())) {
+            integerSkipList.printAllLevelOfCurrent();
+        }
         assertEquals(Integer.valueOf(13), integerSkipList1.last());
 
         Integer[] toAdd2 = {0};
