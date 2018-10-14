@@ -217,14 +217,6 @@ public class SkipList<T extends Comparable<? super T>> {
         while (traversed <= n) {
             if (p.span.length > i && p.span[i] <= n - traversed) {
                 traversed += p.span[i] + 1;
-                // TODO: See if next snippet is actually needed when add() is fixed
-//                if(p.next[i] == null) {
-//                    if(i > 0) {
-//                        i--;
-//                    }
-//                    continue;
-//                }
-
                 p = p.next[i];
             } else {
                 // need extra check to make sure that we can safely travel on bottom most level
