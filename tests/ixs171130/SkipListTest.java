@@ -665,5 +665,15 @@ class SkipListTest {
         assertEquals(Integer.valueOf(9999), i.get(9996));
 
         assertThrows(NoSuchElementException.class, () -> i.get(9997));
+
+        SkipList<Integer> integerSkipList = new SkipList<>();
+        Integer[] toAdd = {1, 4, 2, 7, 5, 9, -10, 654, 34, 12, 86, -20, -999, 999, 100000, -1000000};
+
+        for (int x : toAdd) {
+            integerSkipList.add(x);
+        }
+
+        assertEquals(Integer.valueOf(100000), integerSkipList.getLog(15));
+        assertEquals(Integer.valueOf(999), integerSkipList.getLog(14));
     }
 }

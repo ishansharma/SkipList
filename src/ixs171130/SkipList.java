@@ -233,10 +233,10 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Return last element of list
     public T last() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
-        return (T) tail.prev.element;
+        return (T) tail.prev.getElement();
     }
 
     // Optional operation: Reorganize the elements of the list into a perfect skip list
@@ -312,7 +312,12 @@ public class SkipList<T extends Comparable<? super T>> {
         System.out.println("Max Level reached for size :" + size + " is " + maxLevel);
     }
 
-    // Remove x from list.  Removed element is returned. Return null if x not in list
+    /**
+     * Remove x from the list
+     *
+     * @param x Element to be removed
+     * @return Removed element if it's present, null otherwise
+     */
     public T remove(T x) {
         if (!contains(x))
             return (null);
@@ -355,11 +360,15 @@ public class SkipList<T extends Comparable<? super T>> {
         return (size);
     }
 
+    /**
+     * Entry class for list elements.
+     * @param <E>
+     */
     static class Entry<E> {
         E element;
         Entry[] next;
         Entry prev;
-        int level = 0;
+        int level;
         int[] span;
 
         public Entry(E x, int lev) {
@@ -367,7 +376,6 @@ public class SkipList<T extends Comparable<? super T>> {
             next = new Entry[lev];
             level = lev;
             span = new int[lev];
-            // add more code if needed
         }
 
         public E getElement() {
