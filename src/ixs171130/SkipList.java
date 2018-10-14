@@ -82,12 +82,14 @@ public class SkipList<T extends Comparable<? super T>> {
             }
         }
 
-        if (ent.next[0] != null)
+        if (ent.next[0] != null) {
             ent.next[0].prev = ent;
+        } else {
+            tail.prev = ent;
+        }
         ent.prev = last[0];
         size = size + 1;
         return true;
-
     }
 
     /**
@@ -234,7 +236,7 @@ public class SkipList<T extends Comparable<? super T>> {
         if (size == 0) {
             return null;
         }
-        return getLog(size - 1);
+        return (T) tail.prev.element;
     }
 
     // Optional operation: Reorganize the elements of the list into a perfect skip list
