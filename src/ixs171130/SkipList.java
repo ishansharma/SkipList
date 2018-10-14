@@ -1,36 +1,45 @@
-/* Starter code for LP2 */
-
-// Change this to netid of any member of team
 package ixs171130;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
-// Skeleton for skip list implementation.
-
+/**
+ * Implementation of Skip List. Skip List is a variation of Linked List that maintains multiple links to next
+ * elements to make traversal efficient
+ *
+ * @param <T>
+ * @author Ishan Sharma, Ravikiran Kolanpaka, Sharayu Mantri
+ */
 public class SkipList<T extends Comparable<? super T>> {
     static final int PossibleLevels = 33;
 
-    Entry head, tail, current;
+    Entry head, tail;
     int size, maxLevel;
     int[] skipped;  // maintains number of nodes we skipped after the last entry in last[i]. Required for span[]
-
-    // Constructor
-    public SkipList() {
-        head = new Entry<>(null, PossibleLevels);
-        tail = new Entry<>(null, PossibleLevels);
-        tail.prev = head;
-        size = 0;
-        maxLevel = 1;
-        last = new Entry[PossibleLevels];
-        random = new Random();
-        skipped = new int[PossibleLevels];
-    }
-
     Entry[] last;
     Random random;
 
+    /**
+     * Default constructor, creates an empty SkipList
+     */
+    public SkipList() {
+        head = new Entry<>(null, PossibleLevels);
+        tail = new Entry<>(null, PossibleLevels);
+        last = new Entry[PossibleLevels];
+        tail.prev = head;
+        size = 0;
+        maxLevel = 1;
+        skipped = new int[PossibleLevels];
+        random = new Random();
+    }
+
+    /**
+     * Find a node. Starts at maxLevel and notes down the node that directly links to the node we're looking for or
+     * to node before where x should have been
+     *
+     * @param x Element to look for
+     */
     public void find(T x) {
         Entry<T> p = head;
 
@@ -45,6 +54,10 @@ public class SkipList<T extends Comparable<? super T>> {
         }
     }
 
+    /**
+     * Choose a level for a new entry
+     * @return int level between 1 and PossibleLevels
+     */
     public int chooseLevel() {
         int lev = 1 + Integer.numberOfTrailingZeros(random.nextInt());
         if (lev > maxLevel) {
@@ -57,7 +70,11 @@ public class SkipList<T extends Comparable<? super T>> {
         return (lev);
     }
 
-    // Add x to list. If x already exists, reject it. Returns true if new node is added to list
+    /**
+     * Add x to list. If x already exists, reject it. Returns true if new node is added to list
+     * @param x Element to add
+     * @return false if x is already there, true otherwise
+     */
     public boolean add(T x) {
         if (contains(x))
             return (false);
@@ -130,13 +147,21 @@ public class SkipList<T extends Comparable<? super T>> {
         }
     }
 
-    // Find smallest element that is greater or equal to x
+    /**
+     * Find smallest element that is greater or equal to x
+     * @param x Element whose ceiling is needed
+     * @return x if it is in the list, otherwise element immediately next to it (null if there's no such element)
+     */
     public T ceiling(T x) {
         find(x);
         return last[0].next[0] != null ? ((T) last[0].next[0].element) : null;
     }
 
-    // Does list contain x?
+    /**
+     * Returns true if the list contains x. False otherwise.
+     * @param x Element to search for
+     * @return boolean result
+     */
     public boolean contains(T x) {
         find(x);
         if (last[0].next[0] == null)
@@ -158,7 +183,11 @@ public class SkipList<T extends Comparable<? super T>> {
         return null;
     }
 
-    // Find largest element that is less than or equal to x
+    /**
+     * Find largest element that is less than or equal to x
+     * @param x Element to search for
+     * @return boolean result
+     */
     public T floor(T x) {
        find(x);
         if (last[0] != null && last[0].next[0] != null) {
@@ -186,7 +215,11 @@ public class SkipList<T extends Comparable<? super T>> {
         return getLog(n);
     }
 
-    // O(n) algorithm for get(n)
+    /**
+     * Linear time algorithm to get element at index n
+     * @param n index of element to be retrieved
+     * @return Element at index n
+     */
     public T getLinear(int n) {
         if (n < 0 || n > size - 1 || head.next[0] == null) {
             throw new NoSuchElementException("Invalid index");
@@ -200,7 +233,10 @@ public class SkipList<T extends Comparable<? super T>> {
         return (p.element);
     }
 
-    // Is the list empty?
+    /**
+     * Check whether the list is empty or not
+     * @return true if list is empty, false otherwise
+     */
     public boolean isEmpty() {
         if (size == 0)
             return (true);
@@ -209,6 +245,13 @@ public class SkipList<T extends Comparable<? super T>> {
 
     // Optional operation: Eligible for EC.
     // O(log n) expected time for get(n). Requires maintenance of spans, as discussed in class.
+
+    /**
+     * Find the element at index n in expected O(log n) time. Uses span[] associated with each entry to
+     * find the element.
+     * @param n Index from where element is to be retrieved
+     * @return Element at index n
+     */
     public T getLog(int n) {
         if (n < 0 || n > size - 1 || head.next[0] == null) {
             throw new NoSuchElementException("Invalid index");
@@ -231,7 +274,10 @@ public class SkipList<T extends Comparable<? super T>> {
         return p.element;
     }
 
-    // Return last element of list
+    /**
+     * Return last element of the list. Since we are maintaining prev point, this will just be tail.prev.element
+     * @return Last element of the list
+     */
     public T last() {
         if (isEmpty()) {
             return null;
@@ -239,10 +285,9 @@ public class SkipList<T extends Comparable<? super T>> {
         return (T) tail.prev.getElement();
     }
 
-    // Optional operation: Reorganize the elements of the list into a perfect skip list
-    // Not a standard operation in skip lists. Eligible for EC.
-    // Complexity is O(n)
-    //Add each element to exisiting perefect skiplist
+    /**
+     * Reorganize the elements of the list into a perfect skip list
+     */
     public void rebuild() {
 
         int rebuildSize = size;
@@ -355,7 +400,10 @@ public class SkipList<T extends Comparable<? super T>> {
 
     }
 
-    // Return the number of elements in the list
+    /**
+     * Return the size of the list
+     * @return size of the list
+     */
     public int size() {
         return (size);
     }
@@ -383,7 +431,9 @@ public class SkipList<T extends Comparable<? super T>> {
         }
     }
 
-
+    /**
+     * Method used for printing list elements and their associated spans. Primarily for debugging.
+     */
     public void printAllLevelOfCurrent() {
         Entry current = head;
 
