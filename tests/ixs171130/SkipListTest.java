@@ -527,7 +527,8 @@ class SkipListTest {
                 int temp = it1.next();
                 System.out.println("index " + index1 + " next is " + temp);
                 it1.remove();
-            }
+            };
+
             index1--;
         }
         while(it1.hasNext()) {
