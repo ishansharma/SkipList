@@ -514,7 +514,8 @@ class SkipListTest {
         }
         integerSkipList1.printAllLevelOfCurrent();
         Integer[] res1 = new Integer[7];
-        Iterator<Integer> it1 = integerSkipList1.iterator();
+        SkipList.customSLIterator<Integer> it1 = integerSkipList1.iterator();
+
         index = 0;
         while (it1.hasNext() && index < 3) {
             res1[index] = it1.next();
@@ -535,6 +536,9 @@ class SkipListTest {
             res1[index] = it1.next();
             System.out.println(res1[index]);
             index++;
+        }
+        while (it1.hasPrev()) {
+            System.out.println(it1.prev());
         }
         System.out.println(Arrays.toString(res1));
         assertEquals(Arrays.toString(expected1), Arrays.toString(res1));
