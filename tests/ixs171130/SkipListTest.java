@@ -3,6 +3,7 @@ package ixs171130;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -465,7 +466,79 @@ class SkipListTest {
             index--;
         }
 
-        iteratorIntegerRandom();
+        iteratorIntegerRandomRemove();
+//        iteratorIntegerRandom();
+    }
+
+    private void iteratorIntegerRandomRemove() {
+        SkipList<Integer> integerSkipList = new SkipList<>();
+        Integer[] toAdd = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        Integer[] expected = {1, 2, 3, 4, 9, 10};
+        for (int x : toAdd) {
+            integerSkipList.add(x);
+        }
+        integerSkipList.printAllLevelOfCurrent();
+
+        Integer[] res = new Integer[6];
+        Iterator<Integer> it = integerSkipList.iterator();
+        int index = 0;
+        integerSkipList.find(6);
+        while (it.hasNext() && index < 4) {
+            res[index] = it.next();
+            System.out.println(res[index]);
+            index++;
+        }
+        int index1 = index;
+        while (index1 > 0) {
+            if (it.hasNext()) {
+                int temp = it.next();
+                System.out.println("index " + index1 + " next is " + temp);
+                it.remove();
+            }
+            index1--;
+        }
+        while(it.hasNext()) {
+            res[index] = it.next();
+            System.out.println(res[index]);
+            index++;
+        }
+        System.out.println(Arrays.toString(res));
+        assertEquals(Arrays.toString(expected), Arrays.toString(res));
+        integerSkipList.printAllLevelOfCurrent();
+
+        SkipList<Integer> integerSkipList1 = new SkipList<>();
+        Integer[] toAdd1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        Integer[] expected1 = {1, 2, 3, 7, 8, 9, 10};
+        for (int x : toAdd1) {
+            integerSkipList1.add(x);
+        }
+        integerSkipList1.printAllLevelOfCurrent();
+        Integer[] res1 = new Integer[7];
+        Iterator<Integer> it1 = integerSkipList1.iterator();
+        index = 0;
+        while (it1.hasNext() && index < 3) {
+            res1[index] = it1.next();
+            System.out.println(res1[index]);
+            index++;
+        }
+        index1 = index;
+        while (index1 > 0) {
+            if (it1.hasNext()) {
+                int temp = it1.next();
+                System.out.println("index " + index1 + " next is " + temp);
+                it1.remove();
+            }
+            index1--;
+        }
+        while(it1.hasNext()) {
+            res1[index] = it1.next();
+            System.out.println(res1[index]);
+            index++;
+        }
+        System.out.println(Arrays.toString(res1));
+        assertEquals(Arrays.toString(expected1), Arrays.toString(res1));
+        integerSkipList1.printAllLevelOfCurrent();
+
     }
 
     private void iteratorIntegerRandom() {
@@ -473,8 +546,6 @@ class SkipListTest {
         SkipList<Integer> integerSkipList = new SkipList<>();
         Integer[] toAdd = {1, 4, 2, 7, 5, 9, -10, 654, 34, 12, 86, -20, -999, 999, 100000, -1000000};
         Integer[] expected = {-1000000, -999, -20, -10, 1, 2, 4, 5, 7, 9, 12, 34, 86, 654, 999, 100000};
-//        Integer[] toAdd = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
-//        Integer[] expected = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
         for (int x : toAdd) {
             integerSkipList.add(x);
         }

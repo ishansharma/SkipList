@@ -437,9 +437,12 @@ public class SkipList<T extends Comparable<? super T>> {
     public void printAllLevelOfCurrent() {
         Entry current = head;
 
+        System.out.println(maxLevel);
         System.out.print("Head : ");
         for(int i =0; i < maxLevel; i++) {
-            System.out.print (head.next[i].element + " , ");
+            if ( head.next[i] != null) {
+                System.out.print (head.next[i].element + " , ");
+            }
         }
         System.out.println("");
 
@@ -507,6 +510,10 @@ public class SkipList<T extends Comparable<? super T>> {
         public T next() {
             if (current == null || current.next == null) {
                 throw new NoSuchElementException("No next element in the List");
+            }
+
+            for (int i = 0; i < current.level; i++) {
+                last[i] = current;
             }
 
             T res = (T) current.next[0].element;
